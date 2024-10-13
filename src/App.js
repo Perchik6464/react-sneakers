@@ -1,11 +1,32 @@
+import React from 'react';
 import Card from './components/Card';
 import Header from './components/Header';
 import Drawer from './components/Drawer';
+
 function App() {
+  const [items, setItems] = React.useState([]);
+  const [cartItems, setCartItems] = React.useState([]);
+  const [cartOpened, setCartOpened]= React.useState(false);
+
+ React.useEffect(()=>{
+  fetch('https://670a72c9ac6860a6c2c98557.mockapi.io/items').then(res => {
+    return res.json();
+  }).then(json =>{
+    setItems(json);
+  }
+  );
+ }, []);
+ 
+ const onAddToCart = (obj) =>{
+  setCartItems((prev) => [ ... prev, obj]);
+  
+ };
+
+
   return (
     <div className="wrapper clear">
-      <Drawer/>
-      <Header/>
+      {cartOpened ? <Drawer items= {cartItems} onClose={()=>setCartOpened(false)}/> : null }
+      <Header onClickCart={()=>setCartOpened(true)}/>
       <main className="content p-40">
         <div className="headerContent">
           <h1 className="content__h1">Все кроссовки</h1>
@@ -15,63 +36,13 @@ function App() {
           </div>
         </div>
         <div className="goodsContainer">
-          <Card/>
-          <div className="sneakersCard">
-            <img className="unLiked__ico" src="/img/unLiked.svg" alt="unLiked"/>
-            <img className='sneakersCard__img' src="/img/sneakers/1.jpg" alt="Sneaker"/>
-            <p className="sneakersCard__title">Мужские Кроссовки Nike Blazer Mid Suede</p>
-            <div className="sneakersCard__info">
-              <div className="sneakersCard__price">
-                <p className="sneakersCard__price_up">Цена:</p>
-                <p className="sneakersCard__price_down">12 999 руб.</p>
-              </div>
-              <button className="sneakersCard__add">
-                <img src="/img/plus.svg"/>
-              </button>
-            </div>
-          </div>
-          <div className="sneakersCard">
-          <img className="unLiked__ico" src="/img/unLiked.svg" alt="unLiked"/>
-            <img className='sneakersCard__img' src="/img/sneakers/2.jpg"  alt="Sneaker"/>
-            <p className="sneakersCard__title">Мужские Кроссовки Nike Air Max 270</p>
-            <div className="sneakersCard__info">
-              <div className="sneakersCard__price">
-                <p className="sneakersCard__price_up">Цена:</p>
-                <p className="sneakersCard__price_down">12 999 руб.</p>
-              </div>
-              <button className="sneakersCard__add">
-                <img src="/img/plus.svg"/>
-              </button>
-            </div>
-          </div>
-          <div className="sneakersCard">
-          <img className="unLiked__ico" src="/img/unLiked.svg" alt="unLiked"/>
-            <img className='sneakersCard__img' src="/img/sneakers/3.jpg"  alt="Sneaker"/>
-            <p className="sneakersCard__title">Мужские Кроссовки Nike Blazer Mid Suede</p>
-            <div className="sneakersCard__info">
-              <div className="sneakersCard__price">
-                <p className="sneakersCard__price_up">Цена:</p>
-                <p className="sneakersCard__price_down">8 499 руб.</p>
-              </div>
-              <button className="sneakersCard__add">
-                <img  src="/img/plus.svg"/>
-              </button>
-            </div>
-          </div>
-          <div className="sneakersCard">
-          <img className="unLiked__ico" src="/img/unLiked.svg" alt="unLiked"/>
-            <img className='sneakersCard__img' src="/img/sneakers/4.jpg"  alt="Sneaker"/>
-            <p className="sneakersCard__title">Кроссовки Puma X Aka Boku Future Rider</p>
-            <div className="sneakersCard__info">
-              <div className="sneakersCard__price">
-                <p className="sneakersCard__price_up">Цена:</p>
-                <p className="sneakersCard__price_down">8 999 руб.</p>
-              </div>
-              <button className="sneakersCard__add">
-                <img src="/img/plus.svg"/>
-              </button>
-            </div>
-          </div>
+          {items.map((item) => (
+            <Card
+            title = {item.title} 
+            price = {item.price} 
+            imageUrl={item.imageUrl}
+            onPlus = { (obj) =>onAddToCart(obj)}/>
+          ))}
         </div>
       </main>
     </div>

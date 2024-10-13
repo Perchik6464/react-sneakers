@@ -35,8 +35,7 @@ body {
   margin: 50px auto;
   border-radius: 20px;
   .overlay{
-    display: none;
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
     background-color: rgba(0, 0, 0, 0.5);
@@ -46,10 +45,11 @@ body {
 
   }
   .drawer{
+    display: flex;
     padding: 30px;
     flex-direction: column;
     position: absolute;
-    width: 385px;
+    width: 450px;
     right: 0;
     height: 100%;
     background-color: #FFFFFF;
@@ -95,7 +95,6 @@ body {
       }
     }
     .cartSneakers__BtnRemove{
-      align-self: flex-end;
       opacity: 0.5;
       cursor: pointer;
       transition: opacity 0.2s ease-out;
@@ -146,6 +145,9 @@ body {
     img{
       margin-right: 15px;
     }
+    .headerTable{
+      cursor: pointer;
+    }
 
     .headerInfo__h3, .headerInfo__p{
       margin: 0;
@@ -184,6 +186,7 @@ body {
     .goodsContainer{
       align-items: center;
       display: flex;
+      flex-wrap: wrap;
       .sneakersCard{
         display: flex;
         margin: 20px;
@@ -209,6 +212,7 @@ body {
         }
         .sneakersCard__title{
           margin: 14px 0 14px 0;
+          font-size: 14px;
         }
         .sneakersCard__info{
           justify-content: space-between;
